@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <style>
+        .responsive {
+          padding: 0 6px;
+          float: left;
+          width: 32%;
+        }
+        div.gallery {
+          border: 0px solid #ccc;
+        }
+
+        div.gallery:hover {
+          border: 0px solid #777;
+        }
+
+        div.gallery img {
+          width: 100%;
+          height: auto;
+        }
+
+        div.desc {
+          padding: 15px;
+          text-align: center;
+        }
+
+        * {
+          box-sizing: border-box;
+        }
+        @media only screen and (max-width: 700px) {
+          .responsive {
+            width: 49.99999%;
+            margin: 6px 0;
+          }
+        }
+
+        @media only screen and (max-width: 500px) {
+          .responsive {
+            width: 100%;
+          }
+        }
+
+        .clearfix:after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+    </style>
+    <title>關鍵字 : {{keyword}} 查詢結果</title>
+  </head>
+
+
+  <body>
+    <br>
+    <h1 class="text-center">關鍵字 : {{keyword}}  查詢結果</h1>
+
+    <div class="responsive">
+        <div class="gallery">
+        {% set skill_loc = '/static/skill_req_' + keyword + 'x' + pages|string() + '.png' %}
+        <a href={{skill_loc}} target="_blank">
+          <img src={{skill_loc}} alt="" width="600" height="400">
+        </a>
+        </div>
+    </div>
+
+    <div class="responsive">
+        <div class="gallery">
+        {% set major_loc = '/static/major_req_' + keyword + 'x' + pages|string() + '.png' %}
+        <a href={{major_loc}} target="_blank">
+          <img src={{major_loc}} alt="" width="600" height="400">
+        </a>
+      </div>
+    </div>
+
+    <div class="responsive">
+        <div class="gallery">
+        {% set edu_loc = '/static/edu_req_' + keyword + 'x' + pages|string() + '.png' %}
+        <a href={{edu_loc}} target="_blank">
+          <img src={{edu_loc}} alt="" width="600" height="400">
+        </a>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+   <div style="text-align: center;">
+    <span style="float:left;margin-left:5%;margin-top:30px;">本次搜尋共花 {{t1}} 秒</span>
+    <span style="font-size:36px;position:relative;margin-left:200px">篩選欄位搜尋結果  ({{count}} 筆資料) </span>
+    <span style="float: right;margin-right:5%">
+        <a href="./static/104_result_{{keyword+'x'+pages|string()}}.csv" download="104.csv">
+        <button class="btn btn-primary"><h6>下載csv檔(完整版)</h6></button>
+        </a>
+        <a href="./static/104_result_filtered_{{keyword+'x'+pages|string()}}.csv" download="104_filtered.csv">
+        <button class="btn btn-primary"><h6>下載csv檔(篩選版)</h6></button>
+        </a>
+    </span>
+   </div>
+
+  <div style="overflow:scroll ;margin-left:5%;width:90%;height:600px;white-space:nowrap; text-overflow:ellipsis;"> <!--自動卷軸 不換行 自動省略-->
+      <table class="table table-striped">
+        <tbody>
+
+                {% for _, row in filter_csv.iterrows() %}
+                    <tr>
+                        {% for aa in row %}
+                            {% if 'http' in aa|string() %}
+                            <td><a href="{{aa}}">{{aa}}</a></td>
+                            {% else %}
+                            <td>{{aa}}</td>
+                            {% endif %}
+                        {% endfor%}
+                    </tr>
+                {% endfor %}
+
+        </tbody>
+      </table>
+  </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -56,7 +56,7 @@ def web_scraping(kk, pp):
                 print(detail_link_oo)
 
                 dfs = pd.read_html(detail_link_oo)
-                #print(len(dfs))
+                # print(len(dfs))
                 # for ii,dd in enumerate(dfs):
                 #     print(ii)
                 #     print(dd)

@@ -50,6 +50,7 @@ def web_scraping(kk, pp):
                 detail_code = detail_link.split('/')[-1].split('?')[0]
                 detail_link_oo = 'https://m.104.com.tw/job/' + detail_code
 
+                #print(detail_link_oo)
                 print(comp_name)
                 print(job_name)
                 print(detail_link)
@@ -156,6 +157,7 @@ def web_scraping(kk, pp):
         url = 'https://www.104.com.tw/jobs/search/?ro=0&kwop=7&keyword='+keyword+'&order=15&asc=0&page='+str(startpage)\
               +'&mode=l&jobsource=2018indexpoc'
         print(f'已完成 {i+1} / {pages} 頁')
+
 
     # 處理統計專長的字典 這行是用value排序後回傳一個新的 list, 字典.item() 可以將字典轉成含有 key & value 的 list
     specialty_dict_sorted = sorted(specialty_dict.items(), key=lambda d:d[1] ,reverse=True)

@@ -95,10 +95,5 @@ def visualize_barh(a_list=None, keyword='', count='', pages=''):
     plt.close()
 
 
-def main():
-    visualize_bar([()])
-    return
-
-
 if __name__ == '__main__':
-    main()
+    pass

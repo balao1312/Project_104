@@ -4,13 +4,13 @@ import csvfilter, time, pathlib
 import visualize as v
 
 app = Flask(__name__, static_url_path='/static', static_folder='./static')
-app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 1                 #設置瀏覽器不緩存
+app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 1  # 設置瀏覽器不緩存
 
 occupied = False
 
+
 @app.route('/', methods=['GET', 'POST'])
 def start_here():
-
     if request.method == 'GET':
         return render_template('index.html')
 
@@ -19,11 +19,11 @@ def start_here():
         if occupied == True:
             return render_template('hold.html')
         occupied = True
-        tt1 = time.time()       # 計時的開始時間
-        keyword = request.form.get('keyword')       # 從表格中取得使用者輸入
+        tt1 = time.time()  # 計時的開始時間
+        keyword = request.form.get('keyword')  # 從表格中取得使用者輸入
         pages = int(request.form.get('pages'))
 
-        returned_dict = web_scraping(keyword, pages)    # 從爬蟲函式取得排名名單 呼叫畫圖函式
+        returned_dict = web_scraping(keyword, pages)  # 從爬蟲函式取得排名名單 呼叫畫圖函式
 
         v.visualize_pie(returned_dict['specialty_dict_sorted'], keyword, returned_dict['count'], pages)
         v.visualize_barh(returned_dict['major_req_dict_sorted'], keyword, returned_dict['count'], pages)
@@ -52,7 +52,7 @@ def start_here():
         major = request.form.get('major')
         language = request.form.get('language')
         specialty = request.form.get('specialty')
-        #skill = request.form.get('skill')
+        # skill = request.form.get('skill')
 
         # 原始表格有19欄，公司名設定成永遠顯示，所以設'on'
         show_column = ['on', job_name, detail_link, salary, jobType,
@@ -62,12 +62,13 @@ def start_here():
 
         filter_csv = csvfilter.csv_filter(show_column, keyword, pages)
 
-        tt2 = time.time()   # 計時的結束時間
+        tt2 = time.time()  # 計時的結束時間
         t1 = f'{tt2 - tt1:.4f}'
         print(t1)
         occupied = False
-        return render_template('gg.html',t1=t1, keyword=keyword, filter_csv= filter_csv, count=count, pages=pages)
-                                                     # 導向結果網頁，把需要的變數一併傳出
+        return render_template('gg.html', t1=t1, keyword=keyword, filter_csv=filter_csv, count=count, pages=pages)
+        # 導向結果網頁，把需要的變數一併傳出
+
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port = 5000)
+    app.run(debug=True, host='0.0.0.0', port=5000)

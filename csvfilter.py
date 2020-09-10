@@ -1,5 +1,6 @@
 import pandas
 import pathlib
+import shutil
 
 
 def csv_filter(show_column_index_list=None, keyword='', pages=''):
@@ -10,10 +11,14 @@ def csv_filter(show_column_index_list=None, keyword='', pages=''):
     original_csv = pandas.read_csv(original_csv_path,
                                    names=[i for i in range(len(show_column_index_list))])  # 設headers待會好做篩選
 
-    wanted_index = []  # 如果是 'on'(有選取的 就把index記在 wanted_index)
-    for i in range(len(show_column_index_list)):
-        if show_column_index_list[i] == 'on':
-            wanted_index.append(i)
+    # 如果是 'on'(有選取的 就把index記在 wanted_index)
+    wanted_index = [index for index, value in enumerate(show_column_index_list) if value == 'on']
+
+    # 原本寫法
+    # wanted_index = []
+    # for i in range(len(show_column_index_list)):
+    #     if show_column_index_list[i] == 'on':
+    #         wanted_index.append(i)
 
     filtered_csv = original_csv[wanted_index]  # 建新的篩選過的 dataframe
 
@@ -22,6 +27,13 @@ def csv_filter(show_column_index_list=None, keyword='', pages=''):
 
     return filtered_csv
 
+def sample():
+    original_csv_path = pathlib.Path.cwd().joinpath('static').joinpath('sample').joinpath('104_result_資料工程x20.csv')
+    original_csv_path_copy = pathlib.Path.cwd().joinpath('static').joinpath('104_result_資料工程x20.csv')
+    shutil.copy(str(original_csv_path), str(original_csv_path_copy))
+    filtered_csv = csv_filter(['on' for x in range(4)]+[None for x in range(14)], '資料工程', 20)
+
+    return filtered_csv
 
 if __name__ == '__main__':
-    pass
+    sample()

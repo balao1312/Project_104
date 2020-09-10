@@ -1,7 +1,9 @@
+import csvfilter
+import pathlib
+import time
+import visualize as v
 from flask import Flask, request, render_template
 from web_scraping import web_scraping, web_scraping_demo
-import csvfilter, time, pathlib
-import visualize as v
 
 app = Flask(__name__, static_url_path='/static', static_folder='./static')
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 1  # 設置瀏覽器不緩存
@@ -16,10 +18,10 @@ def start_here():
 
     elif request.method == 'POST':
         global occupied
-        if occupied == True:
+        if occupied:
             return render_template('hold.html')
         occupied = True
-        tt1 = time.time()  # 計時的開始時間
+        start_time = time.time()  # 計時的開始時間
 
         demo = request.form.get('sample')
 
@@ -78,11 +80,11 @@ def start_here():
         else:
             filter_csv = csvfilter.csv_filter(show_column, keyword, pages)
 
-        tt2 = time.time()  # 計時的結束時間
-        t1 = f'{tt2 - tt1:.4f}'
-        print(t1)
+        end_time = time.time()  # 計時的結束時間
+        total_time = f'{end_time - start_time:.4f}'
+        print(total_time)
         occupied = False
-        return render_template('gg.html', t1=t1, keyword=keyword, filter_csv=filter_csv, count=count, pages=pages)
+        return render_template('result.html', total_time=total_time, keyword=keyword, filter_csv=filter_csv, count=count, pages=pages)
         # 導向結果網頁，把需要的變數一併傳出
 
 

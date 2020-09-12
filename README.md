@@ -13,11 +13,19 @@ pip install -r requirements.txt
 
 
 檔案描述：
+
 app.py : 主程式，介接前端網頁
+
 web_scraping.py : 爬蟲及統計，生成csv檔
+
 visualize.py : matplotlib 繪圖
+
 csvfilter.py : 篩選使用者所需欄位並存檔
 
+
 目錄描述：
+
 templates : 放置html網頁模板
+
 static : 放置所需檔案及生成檔案
+

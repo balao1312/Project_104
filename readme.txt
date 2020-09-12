@@ -10,3 +10,10 @@
 在執行境環的terminal輸入
 pip install -r requirements.txt
 等待安裝完成即可
+
+
+檔案描述：
+app.py => 主程式，介接前端網頁
+web_scraping.py => 爬蟲及統計，生成csv檔
+visualize.py => matplotlib 繪圖
+Csvfilter.py => 篩選使用者所需欄位並存檔

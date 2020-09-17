@@ -1,5 +1,10 @@
-import requests, csv, urllib, pathlib, json, time
+import csv
+import json
 import pandas as pd
+import pathlib
+import requests
+import time
+import urllib
 from bs4 import BeautifulSoup
 import ssl  # mac 需要設定SSL   在使用urllib時
 
@@ -7,6 +12,7 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 
 def web_scraping(keyword, pages):
+    time_start = time.time()
     headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36'}
     keyword_url_format = urllib.parse.quote(keyword)  # 中文字轉 url 格式
     url = "https://www.104.com.tw/jobs/search/?keyword=" + keyword_url_format + "&jobsource=2018indexpoc&ro=0&order=1"
@@ -137,10 +143,7 @@ def web_scraping(keyword, pages):
                 csv_writer.writerow(detail_list)
 
             count += 1
-            if pages == 1:
-                pass
-            else:
-                time.sleep(0.5)
+            time.sleep(0.35)
 
         # startpage 初始是1
         startpage += 1
@@ -155,6 +158,8 @@ def web_scraping(keyword, pages):
     major_req_dict_sorted = sorted(major_req_dict.items(), key=lambda d: d[1], reverse=True)
 
     print(f'完成處理，總共有 {count} 筆資料')
+    time_end = time.time()
+    print(f'this query takes {time_end - time_start:.4} seconds')
 
     # 回傳接下來畫圖需要的變數
     return {'specialty_dict_sorted': specialty_dict_sorted, 'edu_req_dict_sorted': edu_req_dict_sorted,
@@ -193,11 +198,20 @@ def web_scraping_demo():
      ('iptables', 1), ('PPPoE', 1), ('NetWare', 1), ('Juniper', 1), ('DHCP', 1), ('LanServer', 1), ('中文打字50~75', 1),
      ('PowerBuilder', 1)]
     edu_req_dict_sorted = [('大學以上', 270), ('專科以上', 241), ('高中以上', 32), ('碩士以上', 30), ('不拘', 19)]
-    major_req_dict_sorted = [('資訊工程相關', 242), ('資訊管理相關', 204), ('電機電子工程相關', 61), ('數學及電算機科學學科類', 41), ('其他數學及電算機科學相關', 39), ('數理統計相關', 24), ('土木工程相關', 20), ('工程學科類', 19), ('統計學相關', 15), ('建築相關', 15), ('工業工程相關', 9), ('機械工程相關', 8), ('商業及管理學科類', 8), ('電機電子維護相關', 8), ('應用數學相關', 5), ('一般數學相關', 5), ('建築及都市規劃學科類', 4), ('醫藥衛生學科類', 3), ('機械維護相關', 3), ('測量工程相關', 3), ('企業管理相關', 3), ('會計學相關', 3), ('自然科學學科類', 2), ('財稅金融相關', 2), ('其他建築及都市規劃學類', 2), ('食品營養相關', 1), ('食品科學相關', 1), ('汽車汽修相關', 1), ('通信學類', 1), ('其他工程相關', 1), ('環境工程相關', 1), ('工業技藝及機械學科類', 1), ('光電工程相關', 1), ('景觀設計相關', 1), ('河海或船舶工程相關', 1), ('其他工業技藝相關', 1), ('銀行保險相關', 1), ('一般商業學類', 1)]
+    major_req_dict_sorted = [('資訊工程相關', 242), ('資訊管理相關', 204), ('電機電子工程相關', 61), ('數學及電算機科學學科類', 41),
+                             ('其他數學及電算機科學相關', 39), ('數理統計相關', 24), ('土木工程相關', 20), ('工程學科類', 19),
+                             ('統計學相關', 15), ('建築相關', 15), ('工業工程相關', 9), ('機械工程相關', 8), ('商業及管理學科類', 8),
+                             ('電機電子維護相關', 8), ('應用數學相關', 5), ('一般數學相關', 5), ('建築及都市規劃學科類', 4),
+                             ('醫藥衛生學科類', 3), ('機械維護相關', 3), ('測量工程相關', 3), ('企業管理相關', 3), ('會計學相關', 3),
+                             ('自然科學學科類', 2), ('財稅金融相關', 2), ('其他建築及都市規劃學類', 2), ('食品營養相關', 1),
+                             ('食品科學相關', 1), ('汽車汽修相關', 1), ('通信學類', 1), ('其他工程相關', 1), ('環境工程相關', 1),
+                             ('工業技藝及機械學科類', 1), ('光電工程相關', 1), ('景觀設計相關', 1), ('河海或船舶工程相關', 1),
+                             ('其他工業技藝相關', 1), ('銀行保險相關', 1), ('一般商業學類', 1)]
     count = 592
+
 
     return {'specialty_dict_sorted': specialty_dict_sorted, 'edu_req_dict_sorted': edu_req_dict_sorted,
             'major_req_dict_sorted': major_req_dict_sorted, 'count': count}
 
 if __name__ == '__main__':
-    web_scraping('資訊工程', 3)
+    web_scraping('資料工程', 5)
